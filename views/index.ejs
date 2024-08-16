@@ -1,0 +1,51 @@
+<%- include("./partials/header") %>
+<body class="bg-slate-950 flex justify-center items-center">
+  <main class="">
+    <h1 class="text-white font-extrabold text-center text-4xl">Welcome to my blog</h1>
+    <div class="gap-4 mt-6 flex justify-between items-center w-fit text-gray-950">
+      <a href="#" class="text-center pointer bg-white p-4 px-6 rounded-lg shadow-lg transition duration-500 hover:scale-105" onclick="fetchArticle('blockchain')">
+        <img class="w-44 rounded-lg" src="https://mojokertokab.go.id/storage/pemkab/gambar/artikel/Blockchain1.jpg" />
+        <p class="mt-2">Mengenai Blockchain</p>
+      </a>
+      <a href="#" class="text-center pointer bg-white p-4 px-6 rounded-lg shadow-lg transition duration-500 hover:scale-105" onclick="fetchArticle('bitcoin')">
+        <img class="w-44 rounded-lg" src="https://mojokertokab.go.id/storage/pemkab/gambar/artikel/Blockchain1.jpg" />
+        <p class="mt-2">Mengenai Bitcoin</p>
+      </a>
+      <a href="#" class="text-center pointer bg-white p-4 px-6 rounded-lg shadow-lg transition duration-500 hover:scale-105" onclick="fetchArticle('solana')">
+        <img class="w-44 rounded-lg" src="https://mojokertokab.go.id/storage/pemkab/gambar/artikel/Blockchain1.jpg" />
+        <p class="mt-2">Mengenai Solana</p>
+      </a>
+    </div>
+
+    <div id="articleModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+      <div class="bg-white rounded-lg p-8 max-w-lg w-full">
+        <h2 id="articleTitle" class="text-2xl font-bold mb-4"></h2>
+        <p id="articleContent" class="text-gray-700"></p>
+        <button onclick="closeModal()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Close</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function fetchArticle(id) {
+      fetch("/article", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("articleTitle").innerText = data.title;
+          document.getElementById("articleContent").innerText = data.content;
+          document.getElementById("articleModal").classList.remove("hidden");
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+
+    function closeModal() {
+      document.getElementById("articleModal").classList.add("hidden");
+    }
+  </script>
+</body>
